@@ -1,10 +1,10 @@
 {
   "id": "com.guiy0.tv",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "vendor": "Guiy0-TV",
   "type": "web",
   "main": "index.html",
   "title": "Guiy0-TV",
-  "description": "Reproductor TV con canales, favoritos y pruebas de conexión",
+  "description": "Guiy0-TV: selecciona un canal y miralo",
   "resolution": "1920x1080"
 }
