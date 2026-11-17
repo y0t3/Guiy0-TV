@@ -1,74 +1,70 @@
-# Guiy0-TV 📺
+# Guiy0-TV 📺🌴
 
-Proyecto multiplataforma de reproductor de streaming, con identidad Guiy0 y estética retro Miami. **Primera prioridad: LG webOS**; **segunda: Android TV, Google TV y Android móvil**. La web permite probar la interfaz desde Windows.
+Un reproductor de TV para **LG webOS, Android TV, Android y navegador**, con diseño retro Miami (rosa, turquesa y violeta) inspirado en la identidad de Guiy0.
 
-## Estado actual
+## Versión 0.4 — Catálogo de canales
 
-- Reproductor de prueba HTML5, HLS nativo o con hls.js según el dispositivo.
-- Video público de demostración para validar reproducción.
-- Campo para cargar una URL completa de streaming que tengas autorización para utilizar.
-- Diagnóstico HTTP (HEAD) de dos rutas base identificadas en la APK de XtremeTV: la versión web usa fetch sujeto a CORS; **Android v0.3 usa una consulta nativa** y puede distinguir HTTP, DNS, tiempos agotados y TLS. **Las rutas no son canales ni prueban disponibilidad externa.**
-- Navegación inicial por flechas/teclado y diseño adaptable.
-- Estructura para empaquetar webOS (.ipk) mediante appinfo.json.
-- Proyecto Android en [android/](android/README.md), con compilación automática de **APK de prueba** mediante GitHub Actions.
+El proyecto dejó de ser únicamente un laboratorio: ahora incluye
 
-**Todavía no hay canales de XtremeTV funcionales confirmados en este proyecto, ni pruebas completadas en el LG o un equipo Android.** No incluye listas o transmisiones protegidas de terceros.
+- **Pantalla principal de TV:** tarjetas con nombres, categorías y señales.
+- **Reproductor HLS** con selección de canal, Anterior / Siguiente, Detener y Pantalla completa.
+- **Favoritos** locales: se guardan por dispositivo con localStorage, sin cuentas ni Firebase.
+- **Búsqueda y filtros** por categoría.
+- **Agregar canales** con URL completa HTTPS o HTTP (solo donde las políticas lo permitan).
+- **Importar listas M3U** pegando su contenido textual. Las URL con parámetros comunes de autenticación se omiten para evitar guardar secretos.
+- **Navegación con teclado/control remoto:** flechas para enfocar, Enter para abrir, Re Pág/Av Pág para cambiar de canal, Atrás para detener. El control LG se verificará con un dispositivo real.
+- **Laboratorio XtremeTV:** conserva únicamente las pruebas HTTP HEAD que investigamos en v0.3, sin enviar credenciales ni intentar extraer transmisiones.
 
-## Versión web (Windows y navegadores)
+### Fuentes iniciales
 
-1. Activá GitHub Pages: **Settings → Pages → Deploy from a branch → main → /(root)**.
-2. Una vez que GitHub confirme la publicación, abrí **https://y0t3.github.io/Guiy0-TV/**.
-3. Tocá **Reproducir HLS de ejemplo**. Si funciona, el reproductor básico está operativo en ese navegador.
-4. Podés consultar las rutas base, pero los resultados pueden ser **no concluyentes** por CORS, DNS, red o contenido mixto.
+| Señal | Tipo | Procedencia | Estado |
+|---|---|---|---|
+| UNLP TV | Canal universitario en vivo | URL bajo infraestructura de UNLP | Enlace público candidato; reproducción externa no verificada todavía |
+| Cine de prueba (Big Buck Bunny) | Video de prueba HLS | Mux | **Probado en BlueStacks en v0.3** |
+| Cortometraje HD (Tears of Steel) | Video de prueba HLS | Unified Streaming | Reproducción pendiente de validar |
+| Calidad adaptable (BipBop) | Video de prueba HLS | Apple Developer | Reproducción pendiente de validar |
 
-Si no querés habilitar Pages, podés descargar el repositorio y servirlo con Python desde su raíz:
+**Importante:** que una señal se publique gratuitamente en Internet no implica necesariamente que un proveedor conceda derechos de redistribución. Guiy0-TV es un reproductor; no hospeda ni redistribuye esas transmisiones. Los enlaces pueden dejar de funcionar o bloquear reproductores externos.
 
-    python -m http.server 8000
+La app **no incluye los canales de XtremeTV**. Las capturas PCAPdroid identificaron servidores de video pero no confirmaron rutas completas ni permisos para reproducir contenido mediante aplicaciones alternativas.
 
-Abrí http://localhost:8000
+## Android TV / móvil
 
-## Versión Android / Android TV
+Abrí [GitHub Actions](https://github.com/y0t3/Guiy0-TV/actions/workflows/android-apk.yml). Dentro de una ejecución **exitosa**, descargá el Artifact `Guiy0-TV-Android-debug` y extraé `app-debug.apk`.
 
-El proyecto Android **empaqueta una copia de los mismos archivos de la raíz** dentro de un WebView con origen HTTPS local seguro, usando WebViewAssetLoader.
+La aplicación Android utiliza un WebView con WebViewAssetLoader y empaqueta los mismos archivos web del proyecto. Sigue siendo una **APK experimental**, no una versión de producción ni un reproductor con DRM.
 
-- En GitHub, abrí **Actions → Guiy0-TV - Android APK**.
-- Elegí una compilación exitosa y descargá **Guiy0-TV-Android-debug** dentro de **Artifacts**.
-- Extraé el ZIP e instalá **app-debug.apk**. Para una compilación nueva podés iniciar **Run workflow**.
-- Por ahora es una **APK debug experimental**, no una versión final ni una APK verificada en dispositivo real. Las actualizaciones posteriores requerirán una clave estable de firma release.
+**Actualización:** los APK debug generados en distintas ejecuciones pueden tener distintas firmas; si Android rechaza la actualización, desinstalá la versión anterior antes de instalar la nueva. Eso puede eliminar favoritos o canales personales almacenados localmente. Para evitarlo en el futuro, se necesita una firma release estable.
 
-Más detalles: [android/README.md](android/README.md).
+## Web / Windows
+
+Para publicar la web estática, habilitá **Settings → Pages → Deploy from a branch → main / (root)**. Una vez habilitado y desplegado, el enlace suele ser https://y0t3.github.io/Guiy0-TV/ .
+
+También puede ejecutarse localmente con Python:
+
+```sh
+python -m http.server 8000
+```
+
+Abrí http://localhost:8000 desde la carpeta del repositorio.
 
 ## LG webOS
 
-El archivo appinfo.json prepara la estructura de una app webOS. La instalación requiere habilitar **Developer Mode**, empaquetar el .ipk y probar en el televisor cuando no esté siendo utilizado como monitor. **No se ha instalado todavía**.
+`appinfo.json` contiene la configuración para empaquetar la aplicación `.ipk`. **Aún no fue instalada ni probada en el LG OLED C2**. La futura prueba requerirá activar Developer Mode en la TV cuando no la estés utilizando como monitor.
 
-## Fuentes de XtremeTV y limitaciones
+## Arquitectura
 
-Las direcciones base identificadas en la APK incluyen:
+- `index.html` — navegación, panel de canales y laboratorio.
+- `styles.css` — diseño TV, tamaño grande y adaptación móvil.
+- `app.js` — canales, controles, reproducción HLS, favoritos y almacenamiento local.
+- `appinfo.json` — metadatos webOS.
+- `android/` — empaquetado APK y puente diagnóstico Android.
+- `.github/workflows/android-apk.yml` — compilación automática.
 
-- https://ch.xtremetv.top/live/
-- http://tv.m3uts.xyz/stream/gen/
+## Seguridad y límites
 
-No son enlaces reproducibles de canales. La aplicación solo consulta HEAD en esas rutas para comprobar qué respuesta puede leer el navegador. Un HTTP 200 **no demuestra acceso a un stream**; un error CORS, HTTP, DNS o de contenido mixto **tampoco demuestra bloqueo por otra app**. El contenido DASH protegido con DRM no se analiza para evadir restricciones.
-
-Guiy0-TV no proporciona canales ni credenciales de terceros. Usá solamente fuentes de reproducción que tengas derecho a utilizar.
-
-## Estructura del proyecto
-
-- index.html: diseño e interfaz.
-- styles.css: identidad retro Miami y responsividad.
-- app.js: HLS, navegación inicial y diagnóstico.
-- appinfo.json: descripción del paquete webOS.
-- android/: proyecto Android/Android TV.
-- .github/workflows/android-apk.yml: compilación de APK de prueba desde GitHub Actions.
-
-**Próximos pasos:** validar primero el reproductor web, comprobar el resultado de la primera compilación Android, probar con control remoto y luego avanzar a la instalación webOS.
-
-## Diagnóstico Android v0.3
-
-- En Android/BlueStacks, **Consultar** ahora utiliza HTTP HEAD desde código Java nativo y no desde el WebView. Así evitamos la limitación CORS del navegador **solo para el diagnóstico**.
-- La comprobación se limita a `https://ch.xtremetv.top/live/` y `http://tv.m3uts.xyz/stream/gen/`. La excepción de HTTP sin cifrar aplica **solo al segundo dominio**, mediante `network_security_config.xml`. No se piden tokens ni se envían credenciales.
-- **200, 301, 403, 404 y 405** son posibles respuestas HTTP; ninguna prueba por sí sola que tengamos un canal reproducible o acceso autorizado.
-- Un error DNS, timeout, TLS o conexión nos permitirá localizar mejor el problema, pero tampoco acredita que exista un bloqueo por aplicación.
-- La APK inspeccionada contiene esas dos direcciones base y una URL DASH asociada a Widevine. **No se identificó una URL HLS completa de canal reutilizable y autorizada** dentro de sus cadenas literales.
-- La APK v0.3 se compila en GitHub Actions. **Es de prueba** y puede exigir desinstalar la v0.2 por incompatibilidad de firmas de depuración.
+- Solo deben añadirse fuentes de streaming cuya reproducción externa esté autorizada.
+- El repositorio no contiene credenciales, tokens de terceros ni contenido protegido.
+- Las URL personales y favoritos se almacenan **solo en el dispositivo** y no se sincronizan.
+- HLS puede fallar por CORS, red, codec, región o requisitos de autenticación.
+- El laboratorio no evade DRM ni bloqueos, y un HTTP 200/404 en una ruta base no demuestra acceso a canales.
