@@ -1,4 +1,4 @@
-/* Guiy0-TV v0.1 · No incluye transmisiones de terceros ni elude protecciones. */
+/* Guiy0-TV v0.3 · No incluye transmisiones de terceros ni elude protecciones. */
 (function () {
   "use strict";
   const $ = (id) => document.getElementById(id);
@@ -102,10 +102,30 @@
         : "El navegador no puede leer la respuesta (red, DNS, CORS u otra restricción). No concluyente.";
     } finally { clearTimeout(timeout); }
   }
+  // Android usa la pila de red nativa para evitar ambigüedades por CORS del WebView.
+  // La capa nativa solo acepta los identificadores "xtreme" y "m3u".
+  const diagnosticIds = { xtreme: "check-1", m3u: "check-2" };
+  window.guiy0NativeResult = function (key, message) {
+    if (!Object.prototype.hasOwnProperty.call(diagnosticIds, key)) return;
+    const target = $(diagnosticIds[key]);
+    if (target) target.textContent = "Android nativo: " + String(message) + " (resultado no concluyente sobre permisos de reproducción)";
+  };
   document.querySelectorAll(".probe").forEach((button) => {
     button.addEventListener("click", () => {
-      const endpoint = new URL(button.dataset.url);
-      probe(endpoint, $(button.dataset.target));
+      const output = $(button.dataset.target);
+      const key = button.dataset.target === "check-1" ? "xtreme" :
+                  button.dataset.target === "check-2" ? "m3u" : "";
+      if (key && window.Guiy0Android && typeof window.Guiy0Android.probe === "function") {
+        output.textContent = "Android nativo: comprobando respuesta HTTP (HEAD)…";
+        try {
+          window.Guiy0Android.probe(key);
+        } catch (_) {
+          output.textContent = "No se pudo iniciar el diagnóstico nativo.";
+        }
+      } else {
+        // Navegador y webOS: sigue disponible el diagnóstico web, limitado por CORS.
+        probe(new URL(button.dataset.url), output);
+      }
     });
   });
   // Navegación básica con flechas de TV, además de Tab/Enter.
