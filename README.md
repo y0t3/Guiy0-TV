@@ -7,7 +7,7 @@ Proyecto multiplataforma de reproductor de streaming, con identidad Guiy0 y est�
 - Reproductor de prueba HTML5, HLS nativo o con hls.js según el dispositivo.
 - Video público de demostración para validar reproducción.
 - Campo para cargar una URL completa de streaming que tengas autorización para utilizar.
-- Diagnóstico básico HTTP (HEAD) de dos rutas base identificadas en una APK de XtremeTV. **Las rutas no son canales ni prueban disponibilidad externa.**
+- Diagnóstico HTTP (HEAD) de dos rutas base identificadas en la APK de XtremeTV: la versión web usa fetch sujeto a CORS; **Android v0.3 usa una consulta nativa** y puede distinguir HTTP, DNS, tiempos agotados y TLS. **Las rutas no son canales ni prueban disponibilidad externa.**
 - Navegación inicial por flechas/teclado y diseño adaptable.
 - Estructura para empaquetar webOS (.ipk) mediante appinfo.json.
 - Proyecto Android en [android/](android/README.md), con compilación automática de **APK de prueba** mediante GitHub Actions.
@@ -63,3 +63,12 @@ Guiy0-TV no proporciona canales ni credenciales de terceros. Usá solamente fuen
 - .github/workflows/android-apk.yml: compilación de APK de prueba desde GitHub Actions.
 
 **Próximos pasos:** validar primero el reproductor web, comprobar el resultado de la primera compilación Android, probar con control remoto y luego avanzar a la instalación webOS.
+
+## Diagnóstico Android v0.3
+
+- En Android/BlueStacks, **Consultar** ahora utiliza HTTP HEAD desde código Java nativo y no desde el WebView. Así evitamos la limitación CORS del navegador **solo para el diagnóstico**.
+- La comprobación se limita a `https://ch.xtremetv.top/live/` y `http://tv.m3uts.xyz/stream/gen/`. La excepción de HTTP sin cifrar aplica **solo al segundo dominio**, mediante `network_security_config.xml`. No se piden tokens ni se envían credenciales.
+- **200, 301, 403, 404 y 405** son posibles respuestas HTTP; ninguna prueba por sí sola que tengamos un canal reproducible o acceso autorizado.
+- Un error DNS, timeout, TLS o conexión nos permitirá localizar mejor el problema, pero tampoco acredita que exista un bloqueo por aplicación.
+- La APK inspeccionada contiene esas dos direcciones base y una URL DASH asociada a Widevine. **No se identificó una URL HLS completa de canal reutilizable y autorizada** dentro de sus cadenas literales.
+- La APK v0.3 se compila en GitHub Actions. **Es de prueba** y puede exigir desinstalar la v0.2 por incompatibilidad de firmas de depuración.
