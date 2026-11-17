@@ -167,7 +167,7 @@ public final class MainActivity extends Activity {
         if (customView != null) { hideCustomView(); return; }
         webView.evaluateJavascript(
             "(function(){var v=document.getElementById('player');" +
-            "if(v&&v.style.display==='block'){var b=document.getElementById('stop');" +
+            "if(v&&!v.hidden){var b=document.getElementById('stop');" +
             "if(b)b.click();return 'stopped';}return 'exit';})()",
             value -> { if ("\"exit\"".equals(value)) finish(); }
         );
