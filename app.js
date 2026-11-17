@@ -1,11 +1,32 @@
-/* Guiy0-TV 0.5 · encender, elegir canal, reproducir. */
+/* Guiy0-TV 0.6 · encender, elegir canal, reproducir. */
 (function(){
 "use strict";
 var CHANNELS=[
-  {name:"Canal 26",kind:"NOTICIAS · EN VIVO",icon:"📰",url:"https://stream-gtlc.telecentro.net.ar/hls/canal26hls/main.m3u8"},
-  {name:"Telemax",kind:"TV ABIERTA · EN VIVO",icon:"📡",url:"https://stream-gtlc.telecentro.net.ar/hls/telemaxhls/main.m3u8"},
-  {name:"NET TV",kind:"VARIEDADES · EN VIVO",icon:"📺",url:"https://unlimited1-us.dps.live/nettv/nettv.smil/playlist.m3u8"},
-  {name:"Video de prueba",kind:"PRUEBA DE VIDEO",icon:"🎬",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"}
+  {name:"Canal 26",kind:"NOTICIAS",icon:"📰",url:"https://stream-gtlc.telecentro.net.ar/hls/canal26hls/main.m3u8"},
+  {name:"Telemax",kind:"GENERAL",icon:"📡",url:"https://stream-gtlc.telecentro.net.ar/hls/telemaxhls/main.m3u8"},
+  {name:"NET TV",kind:"GENERAL",icon:"📺",url:"https://unlimited1-us.dps.live/nettv/nettv.smil/playlist.m3u8"},
+  {name:"Argentinisima Satelital",kind:"GENERAL",icon:"🇦🇷",url:"https://stream1.sersat.com/hls/argentinisima.m3u8"},
+  {name:"Caras TV",kind:"ENTRETENIMIENTO",icon:"🎭",url:"https://unlimited1-us.dps.live/carastv/carastv.smil/playlist.m3u8"},
+  {name:"Canal Provincial",kind:"GENERAL",icon:"🏙️",url:"https://streaming.telered.com.ar/provincial/streaming/mystream.m3u8"},
+  {name:"Canal Universidad",kind:"CULTURA",icon:"🎓",url:"https://videostream.shockmedia.com.ar/hls/canaluniversidadmdp/canaluniversidadmdp.m3u8"},
+  {name:"RTN",kind:"REGIONAL",icon:"🏔️",url:"https://media.neuquen.gov.ar/rtn/television/media.m3u8"},
+  {name:"Canal 7 Jujuy",kind:"REGIONAL",icon:"⛰️",url:"https://stream.arcast.live/canal7jujuy/ngrp:canal7jujuy_all/playlist.m3u8"},
+  {name:"Canal 3 La Pampa",kind:"REGIONAL",icon:"🌾",url:"https://stream.arcast.com.ar/c3lapampa/ngrp:c3lapampa_all/playlist.m3u8"},
+  {name:"Canal 3 Arroyito",kind:"REGIONAL",icon:"📺",url:"https://envivo.cespalarroyito.coop/live/Canal3Arroyito.m3u8"},
+  {name:"Canal 4 Esquel",kind:"REGIONAL",icon:"🏔️",url:"https://stream.arcast.com.ar/canal4esquel/canal4esquel/playlist.m3u8"},
+  {name:"Catamarca TV",kind:"REGIONAL",icon:"🌄",url:"https://stream.arcast.com.ar/canal7catamarca/ngrp:canal7catamarca_all/playlist.m3u8?DVR="},
+  {name:"Mercurio Noticias",kind:"NOTICIAS",icon:"🗞️",url:"https://videostream.shockmedia.com.ar/hls/mercuriotv/mercuriotv.m3u8"},
+  {name:"Multivision Federal",kind:"NOTICIAS",icon:"📰",url:"https://videostream.shockmedia.com.ar/hls/multivisionfederal/multivisionfederal.m3u8"},
+  {name:"Litus TV",kind:"CULTURA",icon:"📚",url:"https://edge.enhdtv.com/litustv/index.m3u8"},
+  {name:"Garage TV Latin America",kind:"MOTORES",icon:"🚗",url:"https://stream1.sersat.com/hls/garagetv.m3u8"},
+  {name:"Cumbia Mix",kind:"MÚSICA",icon:"🎵",url:"https://cloud.tvomix.com/CUMBIAMIX/index.m3u8"},
+  {name:"Chamame TV",kind:"MÚSICA",icon:"🪗",url:"https://srv4.zcast.com.br/chamametv/chamametv/playlist.m3u8"},
+  {name:"Canal 2 NexTV Rafaela",kind:"REGIONAL",icon:"🎥",url:"https://edge.enhdtv.com/nexthd/index.m3u8"},
+  {name:"Canal 20 Villa Maria",kind:"REGIONAL",icon:"📡",url:"https://stmvideo3.livecastv.com/canal20/canal20/playlist.m3u8"},
+  {name:"Canal 5 Santa Fe",kind:"REGIONAL",icon:"📺",url:"https://stream.arcast.com.ar/c5sf/c5sf/playlist.m3u8"},
+  {name:"Canal 3 Formosa",kind:"REGIONAL",icon:"📡",url:"https://stmvideo6.livecastv.com/agenfor/agenfor/playlist.m3u8"},
+  {name:"Canal 7 Neuquen",kind:"REGIONAL",icon:"🏔️",url:"https://stream.arcast.com.ar/c7nq/ngrp:c7nq_all/playlist.m3u8"},
+  {name:"Video de prueba",kind:"DEMOSTRACIÓN",icon:"🎬",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"}
 ];
 var byId=function(id){return document.getElementById(id);};
 var video=byId("player"),empty=byId("empty"),status=byId("play-status");
