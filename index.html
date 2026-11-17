@@ -14,7 +14,7 @@
   <div class="shell">
     <header class="masthead">
       <a class="brand" href="./" aria-label="Guiy0-TV, inicio">Guiy<span>0</span><b>-TV</b><i class="play-mark">▶</i></a>
-      <div class="top-label"><span class="led"></span> LABORATORIO WEBOS + ANDROID / V0.2</div>
+      <div class="top-label"><span class="led"></span> LABORATORIO WEBOS + ANDROID / V0.3</div>
     </header>
     <main>
       <section class="hero">
@@ -49,7 +49,7 @@
         </article>
         <article class="panel diagnostics" aria-labelledby="title-diag">
           <div class="panel-head"><div><span class="overline">ANÁLISIS DE LA APK</span><h2 id="title-diag">Servidores identificados</h2></div><span class="tag outline">Diagnóstico</span></div>
-          <p class="intro">Estas direcciones figuran en la APK, pero <strong>son rutas base, no enlaces de canales</strong>. Podemos consultar su respuesta HTTP sin descargar transmisiones ni enviar credenciales.</p>
+          <p class="intro">Estas direcciones figuran en la APK, pero <strong>son rutas base, no enlaces de canales</strong>. En Android v0.3 hacemos una consulta nativa HEAD sin descargar transmisiones ni enviar credenciales; en web usamos el navegador y pueden intervenir restricciones CORS.</p>
           <div class="endpoint">
             <div class="endpoint-title"><b>Servidor de TV</b><code>https://ch.xtremetv.top/live/</code></div>
             <div class="endpoint-actions"><button type="button" class="btn subtle probe" data-url="https://ch.xtremetv.top/live/" data-target="check-1">Consultar</button><span class="endpoint-result" id="check-1" aria-live="polite">Sin consultar</span></div>
@@ -58,8 +58,8 @@
             <div class="endpoint-title"><b>Generación de streams</b><code>http://tv.m3uts.xyz/stream/gen/</code></div>
             <div class="endpoint-actions"><button type="button" class="btn subtle probe" data-url="http://tv.m3uts.xyz/stream/gen/" data-target="check-2">Consultar</button><span class="endpoint-result" id="check-2" aria-live="polite">Sin consultar</span></div>
           </div>
-          <div class="note"><strong>Cómo interpretar el resultado</strong><p>Un HTTP 200 en una ruta base no demuestra que podamos reproducir canales. Un error CORS, DNS, HTTP o de contenido mixto tampoco demuestra por sí solo que la app esté bloqueada. Falta una URL completa y autorizada.</p></div>
-          <p class="hint">Hay además una referencia DASH/Widevine en la APK. No la probamos ni intentamos eludir su DRM.</p>
+          <div class="note"><strong>Cómo interpretar el resultado</strong><p>Un HTTP 200 en una ruta base no demuestra que podamos reproducir canales. Un error CORS, DNS, HTTP o de contenido mixto tampoco demuestra por sí solo que la app esté bloqueada. En Android nativo no hay CORS, pero un HTTP 403 o 404 en una ruta base sigue sin probar bloqueo de otra app. Falta una URL completa y autorizada.</p></div>
+          <p class="hint">Hay además una referencia DASH/Widevine en la APK. No la probamos ni intentamos eludir su DRM. Para reproducir un canal necesitamos una fuente completa y autorizada.</p>
         </article>
       </section>
       <footer>GUIY0-TV · PROTOTIPO DE PRUEBA · SIN CATÁLOGO NI CANALES INCLUIDOS</footer>
