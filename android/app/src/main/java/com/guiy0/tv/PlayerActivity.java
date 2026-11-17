@@ -27,7 +27,7 @@ public final class PlayerActivity extends Activity {
         "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
     };
     private static final String[] TITLES = {
-        "Canal 26","UNLP TV","Telemax","NET TV","Video de prueba"
+        "Canal 26","Telemax","NET TV","Video de prueba"
     };
     private ExoPlayer player;
     private TextView title;
