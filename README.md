@@ -1,43 +1,37 @@
-# Guiy0-TV 📺🌴 — Versión 0.5.1
+# Guiy0-TV 📺🌴 — v0.6
 
-**Objetivo:** abrir la aplicación, elegir un canal y verlo. Nada de usuarios, listas, formularios ni configuración.
+**Idea:** encender la TV, elegir un canal y mirar. Sin usuarios, sin listas M3U para pegar, sin formularios ni configuración.
 
-## Qué hace
+## Primera ampliación del catálogo (25 entradas)
 
-- Muestra una grilla sencilla de canales.
-- Al tocar una señal, **Android** abre un reproductor nativo a pantalla completa con Media3/ExoPlayer.
-- En el reproductor Android, los botones **Anterior** y **Siguiente** cambian de señal sin regresar al catálogo.
-- En **LG webOS y navegador**, usa video HLS nativo o hls.js según el dispositivo.
-- Un video público de Mux sirve para comprobar que el reproductor funciona.
-- No requiere cuenta, Firebase, servidor propio ni ingresar claves.
+Dejamos **las 3 señales que el usuario comprobó en BlueStacks**: Canal 26, Telemax y NET TV.
 
-## Señales incluidas inicialmente
+Agregamos **21 canales candidatos** de televisión argentina: Argentinisima Satelital, Caras TV, Canal Provincial, Canal Universidad (Mar del Plata), RTN Neuquén, Canal 7 Jujuy, Canal 3 La Pampa, Canal 3 Arroyito, Canal 4 Esquel, Catamarca TV, Mercurio Noticias, Multivision Federal, Litus TV, Garage TV, Cumbia Mix, Chamamé TV, Canal 2 NexTV Rafaela, Canal 20 Villa María, Canal 5 Santa Fe, Canal 3 Formosa y Canal 7 Neuquén.
 
-| Señal | Fuente | Estado |
-|---|---|---|
-| Canal 26 | Stream HLS de Telecentro | **Probado por el usuario en BlueStacks** |
-| Telemax | Stream HLS de Telecentro | **Probado por el usuario en BlueStacks** |
-| NET TV | Stream HLS de distribuidor de señal | **Probado por el usuario en BlueStacks** |
-| Video de prueba | Mux Big Buck Bunny | El enlace se reprodujo previamente en BlueStacks |
+El catálogo conserva además **1 video de demostración** (Mux HLS) para diagnosticar el reproductor.
 
-**UNLP TV:** se retiró temporalmente del catálogo porque el usuario confirmó que no reproducía en BlueStacks; no se verificó una URL alternativa funcional.\n\n**Limitaciones:** los canales pueden fallar o modificar sus políticas de distribución; las pruebas de una APK compilada no garantizan reproducción en un dispositivo. Se utilizan señales sin contraseñas ni mecanismos de acceso protegido. Si un canal no se abre, probar otro; el demo permite distinguir problemas del reproductor y de la fuente.
+- Total: **24 señales de TV + 1 video demo**.
+- Las fuentes nuevas provienen del catálogo argentino publicado por [Nexonic IPTV](https://github.com/Shahrukhalid/nexonic-iptv) y pasaron por su listado de canales verificados durante las últimas 48 horas en la consulta de 17/11/2026. El enlace original de NET TV, por su parte, fue confirmado directamente en BlueStacks y por eso se conservó.
+- **IMPORTANTE:** las 21 señales nuevas NO fueron probadas aún en el BlueStacks del usuario. Que un catálogo marque un enlace como accesible desde sus servidores no garantiza que vaya a funcionar en Argentina o en webOS. Algunas emisiones pueden ser intermitentes, tener límites geográficos o condiciones específicas de uso.
+- Se priorizaron señales de libre acceso (noticias, universitarias, regionales, música, cultura). Se excluyeron del lote experimental señales de suscripción o DRM presentes en listas comunitarias; la publicación de una URL en GitHub no es por sí sola una licencia de uso.
 
-## Android y Android TV
+## Reproductor sin configuraciones
 
-GitHub Actions compila la APK desde la carpeta `android/`:
+- En **Android / Android TV** la app usa Media3/ExoPlayer en una pantalla de reproducción nativa, con botones Anterior, Siguiente y Volver.
+- En **webOS** la misma grilla se reproduce con HLS nativo o hls.js cuando corresponda.
+- Los canales están definidos en `app.js` y sincronizados en `android/app/src/main/java/com/guiy0/tv/PlayerActivity.java`. El próximo paso técnico será evitar duplicar el catálogo y permitir actualizaciones automáticas sin agregar controles visibles.
+
+## APK Android
+
+El flujo de GitHub Actions compila una APK de prueba:
 
 https://github.com/y0t3/Guiy0-TV/actions/workflows/android-apk.yml
 
-Descargar el artifact de la compilación más reciente exitosa y extraer `app-debug.apk`.
+Los APK de depuración de distintas ejecuciones pueden llevar firmas distintas. Si una actualización falla, desinstalar la versión anterior puede ser necesario y borra sus datos locales.
 
-**Advertencia sobre actualizaciones:** cada compilación debug puede usar otra firma y requerir desinstalar la anterior.
+## Límites
 
-## LG webOS
-
-`appinfo.json` configura la aplicación para su futuro empaquetado webOS `.ipk`. La versión LG **todavía no fue instalada ni validada en la televisión real**.
-
-## Fuentes y permisos
-
-Guiy0-TV no incluye señales de XtremeTV, credenciales Xtream Codes publicadas por terceros ni canales con DRM. Las transmisiones de cada proveedor están sujetas a su disponibilidad y condiciones de uso.
-
-El código de versiones anteriores permanece en el historial GitHub, pero la pantalla principal ya no expone herramientas técnicas.
+- No se incorporaron credenciales de la publicación de TikTok ni se extrajeron canales de XtremeTV.
+- No se eluden tokens, paywalls, DRM ni restricciones de distribución.
+- Los enlaces pueden cambiar o desaparecer sin aviso.
+- **La versión LG webOS todavía no está probada en el televisor real.** Se mantiene `appinfo.json` listo para empaquetado futuro en `.ipk`.
