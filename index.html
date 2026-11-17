@@ -1,135 +1,44 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0c0e1d">
-  <meta name="description" content="Guiy0-TV: tu reproductor de streaming para webOS, Android TV y navegador.">
-  <title>Guiy0-TV · Tu TV, a tu manera</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
-  <script defer src="app.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#110c20">
+<title>Guiy0-TV · Mirá la tele</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
+<script defer src="app.js"></script>
 </head>
 <body>
-  <div class="backdrop" aria-hidden="true"><div class="retro-sun"></div><div class="horizon"></div></div>
-  <div class="app">
-    <header class="topbar">
-      <a class="brand" href="./" aria-label="Guiy0-TV: pantalla principal">
-        Guiy<span class="brand-zero">0</span><span class="brand-tv">-TV</span><span class="brand-play" aria-hidden="true">▶</span>
-      </a>
-      <nav class="nav" aria-label="Secciones">
-        <button class="nav-tab current" data-view="channels" type="button"><span aria-hidden="true">▦</span> Canales</button>
-        <button class="nav-tab" data-view="favorites" type="button"><span aria-hidden="true">★</span> Favoritos <span id="favorites-nav-count" class="nav-count">0</span></button>
-        <button class="nav-tab" data-view="tools" type="button"><span aria-hidden="true">⚙</span> Laboratorio</button>
-      </nav>
-      <span class="version">V0.4 · WEBOS + ANDROID</span>
-    </header>
-    <main>
-      <section class="welcome">
-        <div class="welcome-copy">
-          <span class="eyebrow">🌴 ESTILO MIAMI · TU PROPIA TV</span>
-          <h1>Guiy0-TV <span>en acción.</span></h1>
-          <p>Canales, favoritos y control remoto. Sin cuentas, sin servidor propio y con tus fuentes autorizadas.</p>
-        </div>
-        <div class="welcome-count">
-          <span>EN TU CATÁLOGO</span><strong id="channel-count">4 señales de prueba</strong>
-          <small><span id="favorites-count">0</span> favoritos</small>
-        </div>
-      </section>
-      <div class="section-header">
-        <div><h2 id="page-title">Explorar canales</h2><p id="page-subtitle">Canales de prueba, transmisiones públicas y tus propias fuentes.</p></div>
-        <span class="section-note">▲ ▼ ◀ ▶ MOVERSE · ENTER ELEGIR</span>
-      </div>
-
-      <section id="channels-section" class="main-grid">
-        <div class="left-column">
-          <div class="searchbar">
-            <label class="sr-only" for="search">Buscar un canal</label>
-            <span aria-hidden="true">⌕</span>
-            <input id="search" type="search" placeholder="Buscar un canal o categoría…" autocomplete="off">
-          </div>
-          <div id="category-filters" class="filters" aria-label="Filtrar canales por categoría"></div>
-          <div id="channel-grid" class="channel-grid" aria-label="Catálogo de canales"></div>
-          <div id="empty-state" class="empty-state" hidden>
-            <strong>Acá todavía no hay señales.</strong>
-            <p>Probá otra categoría, buscá de nuevo o agregá canales en el Laboratorio.</p>
-          </div>
-          <p class="foot-hint">Las transmisiones de terceros pueden dejar de estar disponibles. El video de Mux y los demás ejemplos son contenido de prueba, no TV en vivo.</p>
-        </div>
-
-        <div class="right-column">
-          <section class="player-panel" aria-label="Reproductor">
-            <div id="player-zone" class="screen">
-              <div id="placeholder" class="screen-empty">
-                <span class="screen-circle" aria-hidden="true">▶</span>
-                <strong>GUIY0<span>-TV</span></strong>
-                <small>Tu pantalla empieza acá</small>
-              </div>
-              <video id="player" controls playsinline preload="none" hidden aria-label="Reproductor de Guiy0-TV"></video>
-            </div>
-            <div class="playing-details">
-              <span class="eyebrow">AHORA EN PANTALLA</span>
-              <div class="playing-title"><h3 id="now-name">Seleccioná un canal</h3><button id="fav-current" class="square-action" type="button" disabled>☆ Favorito</button></div>
-              <p id="now-info">Tocá una tarjeta para comenzar a reproducir.</p>
-              <small id="now-source">Sin reproducción activa</small>
-            </div>
-            <div class="transport">
-              <button id="prev" type="button" aria-label="Canal anterior">◀ Anterior</button>
-              <button id="stop" type="button" aria-label="Detener video">■ Detener</button>
-              <button id="next" type="button" aria-label="Canal siguiente">Siguiente ▶</button>
-              <button id="fullscreen" type="button" aria-label="Pantalla completa">⛶ Pantalla completa</button>
-            </div>
-            <p id="play-status" class="player-status" role="status" aria-live="polite">Listo para reproducir.</p>
-          </section>
-          <aside class="help-card">
-            <strong>🎮 Control remoto</strong>
-            <p>Usá las flechas para seleccionar, Enter para abrir, Re Pág/Av Pág para cambiar de señal y Atrás para detener. En el LG se ajustará el mapeo según el control real.</p>
-          </aside>
-        </div>
-      </section>
-
-      <section id="tools-section" class="tools-grid" hidden>
-        <article class="tool-panel">
-          <span class="eyebrow">CATÁLOGO PERSONAL</span>
-          <h3>Agregar un canal</h3>
-          <p>Agregá un enlace HLS público o uno que tengas permiso de utilizar. Se guarda solo en este dispositivo: no se publica en GitHub.</p>
-          <form id="add-channel-form" class="tool-form">
-            <label for="new-name">Nombre del canal</label>
-            <input id="new-name" maxlength="65" placeholder="Mi señal" required>
-            <label for="new-url">Enlace completo de video</label>
-            <input id="new-url" type="url" placeholder="https://servidor.com/canal.m3u8" autocomplete="off" required>
-            <label for="new-category">Categoría</label>
-            <input id="new-category" maxlength="35" placeholder="Mis canales">
-            <button class="primary-button" type="submit">＋ Agregar al catálogo</button>
-          </form>
-          <p id="add-result" class="hint" role="status" aria-live="polite"></p>
-          <button id="remove-personal" class="danger-button" type="button">Eliminar mis canales guardados</button>
-        </article>
-        <article class="tool-panel">
-          <span class="eyebrow">LISTAS M3U</span>
-          <h3>Importar una lista</h3>
-          <p>Pegá el contenido de un archivo M3U autorizado. Esta prueba importa nombres y direcciones HTTP(S) sin claves ni contraseñas; las URL privadas no deben compartirse.</p>
-          <form id="import-form" class="tool-form">
-            <label for="m3u-text">Contenido de lista M3U</label>
-            <textarea id="m3u-text" rows="8" placeholder="#EXTM3U&#10;#EXTINF:-1,Canal autorizado&#10;https://ejemplo.com/stream.m3u8"></textarea>
-            <button class="secondary-button" type="submit">Importar canales</button>
-          </form>
-          <p id="import-result" class="hint" role="status" aria-live="polite"></p>
-        </article>
-        <article class="tool-panel wide-panel">
-          <div class="tool-top"><div><span class="eyebrow">INVESTIGACIÓN · XTREMETV</span><h3>Diagnóstico de conexión</h3></div><span class="tool-badge">Solo HTTP HEAD</span></div>
-          <p>Consultamos dos rutas base halladas en la APK. Una respuesta del servidor no concede acceso a canales ni reemplaza permisos de reproducción.</p>
-          <div class="probe-grid">
-            <div class="probe-card"><strong>Servidor de TV</strong><code>https://ch.xtremetv.top/live/</code>
-              <button class="probe" type="button" data-url="https://ch.xtremetv.top/live/" data-target="check-1">Consultar conexión</button><span id="check-1" class="probe-result" role="status">Sin consultar</span></div>
-            <div class="probe-card"><strong>Generación de streams</strong><code>http://tv.m3uts.xyz/stream/gen/</code>
-              <button class="probe" type="button" data-url="http://tv.m3uts.xyz/stream/gen/" data-target="check-2">Consultar conexión</button><span id="check-2" class="probe-result" role="status">Sin consultar</span></div>
-          </div>
-          <p class="hint">La prueba nativa Android evita CORS solo al consultar conectividad. No extrae transmisiones, no envía tokens y no evita DRM.</p>
-        </article>
-      </section>
-      <footer>GUIY0-TV · REPRODUCTOR EN DESARROLLO · FUENTES PÚBLICAS DE PRUEBA Y CANALES QUE VOS AGREGUES</footer>
-    </main>
+<main class="app">
+<header class="header">
+  <div class="branding"><span class="logo">Guiy<span>0</span>-TV</span><small>EN VIVO · ARGENTINA</small></div>
+  <div class="header-tip">Elegí un canal y disfrutá 📺</div>
+</header>
+<section class="stage">
+  <div class="viewer" id="viewer">
+    <div id="empty" class="empty">
+      <span class="empty-icon">▶</span>
+      <strong>Tu tele empieza acá</strong>
+      <p>Elegí un canal para comenzar</p>
+    </div>
+    <video id="player" controls playsinline preload="none" hidden></video>
   </div>
+  <div class="playing">
+    <div class="now"><span class="small-label">ESTÁS MIRANDO</span><h1 id="now">Elegí tu canal</h1><p id="play-status" role="status">Sin reproducción</p></div>
+    <div class="actions">
+      <button id="prev" type="button">◀ Anterior</button>
+      <button id="fullscreen" type="button">⛶ Pantalla completa</button>
+      <button id="next" type="button">Siguiente ▶</button>
+    </div>
+  </div>
+</section>
+<section class="channels-section">
+  <div class="section-title"><div><span class="small-label">GUIY0-TV</span><h2>Canales</h2></div><span class="tip">FLECHAS PARA MOVERTE · ENTER PARA VER</span></div>
+  <div id="channels" class="channels" aria-label="Elegí un canal"></div>
+  <p class="disclaimer">Las señales dependen de la disponibilidad del emisor. Incluimos un video de demostración para comprobar el reproductor cuando un canal esté fuera de servicio.</p>
+</section>
+<footer>GUIY0-TV · SIMPLE, DIRECTO Y A TU MANERA · V0.5</footer>
+</main>
 </body>
 </html>
