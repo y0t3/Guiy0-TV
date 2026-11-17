@@ -3,7 +3,6 @@
 "use strict";
 var CHANNELS=[
   {name:"Canal 26",kind:"NOTICIAS · EN VIVO",icon:"📰",url:"https://stream-gtlc.telecentro.net.ar/hls/canal26hls/main.m3u8"},
-  {name:"UNLP TV",kind:"UNIVERSIDAD · EN VIVO",icon:"🎓",url:"https://stratus.stream.cespi.unlp.edu.ar/hls/tvunlp.m3u8"},
   {name:"Telemax",kind:"TV ABIERTA · EN VIVO",icon:"📡",url:"https://stream-gtlc.telecentro.net.ar/hls/telemaxhls/main.m3u8"},
   {name:"NET TV",kind:"VARIEDADES · EN VIVO",icon:"📺",url:"https://unlimited1-us.dps.live/nettv/nettv.smil/playlist.m3u8"},
   {name:"Video de prueba",kind:"PRUEBA DE VIDEO",icon:"🎬",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"}
