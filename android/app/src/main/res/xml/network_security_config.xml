@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Solo se permite HTTP a una ruta base expresamente elegida para diagnóstico.
+         No habilitamos HTTP genérico ni enviamos credenciales. -->
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">tv.m3uts.xyz</domain>
+    </domain-config>
+</network-security-config>
