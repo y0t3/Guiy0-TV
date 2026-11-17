@@ -1,0 +1,57 @@
+name: Guiy0-TV - Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - "index.html"
+      - "styles.css"
+      - "app.js"
+      - "android/**"
+      - ".github/workflows/android-apk.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compilar APK Android y Android TV
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Configurar SDK de Android
+        uses: android-actions/setup-android@v3
+
+      - name: Instalar plataforma Android 35
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Configurar Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
+
+      - name: Copiar web compartida a Android
+        run: |
+          mkdir -p android/app/src/main/assets/web
+          cp index.html styles.css app.js android/app/src/main/assets/web/
+          test -s android/app/src/main/assets/web/index.html
+
+      - name: Compilar APK debug
+        run: gradle -p android :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Publicar APK como artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Guiy0-TV-Android-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
