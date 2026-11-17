@@ -1,4 +1,4 @@
-# Guiy0-TV 📺🌴 — Versión 0.5
+# Guiy0-TV 📺🌴 — Versión 0.5.1
 
 **Objetivo:** abrir la aplicación, elegir un canal y verlo. Nada de usuarios, listas, formularios ni configuración.
 
@@ -15,13 +15,12 @@
 
 | Señal | Fuente | Estado |
 |---|---|---|
-| Canal 26 | Stream HLS publicado por Telecentro, fuente directa | Enlace candidato, no probado todavía en el equipo |
-| UNLP TV | Stream HLS de infraestructura de UNLP | Enlace candidato, no probado todavía en el equipo |
-| Telemax | Stream HLS publicado por Telecentro | Enlace candidato, no probado todavía en el equipo |
-| NET TV | Stream HLS publicado por distribuidor de señal | Enlace candidato, no probado todavía en el equipo |
+| Canal 26 | Stream HLS de Telecentro | **Probado por el usuario en BlueStacks** |
+| Telemax | Stream HLS de Telecentro | **Probado por el usuario en BlueStacks** |
+| NET TV | Stream HLS de distribuidor de señal | **Probado por el usuario en BlueStacks** |
 | Video de prueba | Mux Big Buck Bunny | El enlace se reprodujo previamente en BlueStacks |
 
-**Limitaciones:** los canales pueden fallar o modificar sus políticas de distribución; las pruebas de una APK compilada no garantizan reproducción en un dispositivo. Se utilizan señales sin contraseñas ni mecanismos de acceso protegido. Si un canal no se abre, probar otro; el demo permite distinguir problemas del reproductor y de la fuente.
+**UNLP TV:** se retiró temporalmente del catálogo porque el usuario confirmó que no reproducía en BlueStacks; no se verificó una URL alternativa funcional.\n\n**Limitaciones:** los canales pueden fallar o modificar sus políticas de distribución; las pruebas de una APK compilada no garantizan reproducción en un dispositivo. Se utilizan señales sin contraseñas ni mecanismos de acceso protegido. Si un canal no se abre, probar otro; el demo permite distinguir problemas del reproductor y de la fuente.
 
 ## Android y Android TV
 
