@@ -1,10 +1,10 @@
 {
   "id": "com.guiy0.tv",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "vendor": "Guiy0-TV",
   "type": "web",
   "main": "index.html",
-  "title": "Guiy0-TV (Prueba)",
-  "description": "Laboratorio de reproducción HLS y diagnóstico, sin catálogo",
+  "title": "Guiy0-TV",
+  "description": "Reproductor TV con canales, favoritos y pruebas de conexión",
   "resolution": "1920x1080"
 }
